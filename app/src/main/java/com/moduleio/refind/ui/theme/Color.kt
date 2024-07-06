@@ -2,6 +2,9 @@ package com.moduleio.refind.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
+val Green = Color(0xFF1EB980)
+val Yellow = Color(0xFFE7C000)
+
 val Purple80 = Color(0xFFD0BCFF)
 val PurpleGrey80 = Color(0xFFCCC2DC)
 val Pink80 = Color(0xFFEFB8C8)
