@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -25,18 +26,21 @@ import androidx.compose.ui.unit.sp
 import com.moduleio.refind.R
 
 @Composable
-fun CardComponent(image: Painter, title: String, description: String) {
+fun ItemCard(image: Painter, title: String, description: String) {
     Card(
-        shape = RoundedCornerShape(5.dp), // Adjusted rounded corners
+        shape = RoundedCornerShape(15.dp), // Adjusted rounded corners
         modifier = Modifier
-            .requiredSize(100.dp) // Keeps the card square
-            .padding(4.dp), // Reduced padding
+            .requiredSize(100.dp)
+            .padding(4.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.White),
         elevation = CardDefaults.cardElevation(defaultElevation = 3.dp),
     ) {
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally, // Centers content horizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center, // Centers content vertically
-            modifier = Modifier.padding(8.dp).fillMaxSize() // Reduced padding inside the card
+            modifier = Modifier
+                .padding(8.dp)
+                .fillMaxSize(),
         ) {
             Image(
                 painter = image,
@@ -61,10 +65,10 @@ fun CardComponent(image: Painter, title: String, description: String) {
     }
 }
 
-@Preview(showBackground = true)
+@Preview( )
 @Composable
 fun PreviewSquareCardWithContent() {
-    CardComponent(
+    ItemCard(
         image = painterResource(id = R.drawable.dasani),
         title = "Title Here",
         description = "Description Here"

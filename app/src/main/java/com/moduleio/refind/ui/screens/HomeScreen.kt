@@ -1,6 +1,7 @@
 package com.moduleio.refind.ui.screens
 
-import CardComponent
+import ItemCard
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -9,18 +10,22 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.Search
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuDefaults.outlinedTextFieldColors
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -37,9 +42,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.moduleio.refind.R
 import com.moduleio.refind.data.model.Item
+import com.moduleio.refind.ui.theme.Green
 import com.moduleio.refind.ui.theme.ReFindTheme
 
 @Preview
@@ -62,15 +69,26 @@ fun HomeScreen() {
                 .fillMaxSize()
         ) {
 //        TopBar()
+            Spacer(modifier = Modifier.height(30.dp))
+            Image(
+                painter = painterResource(id = R.drawable.logo),
+                contentDescription = "ReFind Logo",
+                modifier = Modifier
+                    .size(120.dp)
+                    .align(CenterHorizontally)
+                    .padding(top = 30.dp)
+            )
             Text(
                 text = "ReFind",
-                fontSize = 20.sp,
+                fontSize = 30.sp,
                 modifier = Modifier
                     .align(CenterHorizontally)
-                    .padding(top = 30.dp, bottom = 8.dp),
+                    .padding(top = 5.dp, bottom = 8.dp),
                 fontWeight = FontWeight.Bold,
-                color = androidx.compose.ui.graphics.Color.White
+                color = Color.Black
             )
+            Spacer(modifier = Modifier.height(20.dp))
+
             SearchView(modifier = Modifier.fillMaxWidth())
             AnimationSection()
             Column{
@@ -83,7 +101,7 @@ fun HomeScreen() {
                 // TODO: Lazy grid here
                 LazyVerticalGrid(columns = GridCells.Adaptive(100.dp)) {
                     items(cardItems) { item ->
-                        CardComponent(
+                        ItemCard(
                             image = painterResource(id = item.imageResId),
                             title = item.title,
                             description = item.description
@@ -93,7 +111,7 @@ fun HomeScreen() {
                 }
             }
 
-        FloatingButton()
+//        FloatingButton()
 
         }
     }
@@ -105,7 +123,9 @@ fun AnimationSection() {
     Box(modifier = Modifier.fillMaxWidth()) {
         LottieAnimation(composition = composition, modifier = Modifier
             .fillMaxWidth()
-            .height(200.dp))
+            .height(200.dp),
+            iterations = LottieConstants.IterateForever
+        )
     }
 }
 
@@ -129,6 +149,7 @@ fun TopBar() {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchView(modifier: Modifier = Modifier) {
     OutlinedTextField(
@@ -137,9 +158,23 @@ fun SearchView(modifier: Modifier = Modifier) {
         label = { Text("Search for item") },
         modifier = modifier
             .fillMaxWidth(),
-        leadingIcon = { Icon(imageVector = Icons.Outlined.Search, contentDescription = "Search") }
-    )
+        leadingIcon = { Icon(imageVector = Icons.Outlined.Search, contentDescription = "Search") },
+        trailingIcon = {
+            IconButton(onClick = { /* Handle clear button click */ }) {
+                Icon(
+                    painter = painterResource(id = R.drawable.baseline_camera_alt_24),
+                    contentDescription = "Clear")
+            }
+        },
+        shape = RoundedCornerShape(20.dp),
+        colors = outlinedTextFieldColors(
+//            unfocusedBorderColor = Green, // Set the unfocused outline color to Green
+            focusedBorderColor = Green,
+            focusedLabelColor = Green,
 
+        )
+
+    )
 }
 
 @Composable
@@ -152,11 +187,12 @@ fun FloatingButton() {
             modifier = Modifier
                 .padding(20.dp)
                 .align(Alignment.BottomCenter)
-                .clip(CircleShape),
-//            containerColor = DarkBleu,
+                .clip(CircleShape)
+                .size(60.dp),
+            containerColor = Color(0xFF2C972F),
         ) {
             Icon(
-                painter = painterResource(id = R.drawable.baseline_document_scanner_24),
+                painter = painterResource(id = R.drawable.baseline_camera_alt_24),
                 contentDescription = "Scan  Button",
                 tint = Color.White)
         }
